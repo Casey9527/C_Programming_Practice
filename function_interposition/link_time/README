@@ -1,0 +1,11 @@
+gcc -O2 -Wall -DLINKTIME -c mymalloc.c
+gcc -O2 -Wall -Wl,--wrap,malloc -Wl,--wrap,free -o hellol hello.c mymalloc.o
+
+
+malloc -> __wrap_malloc
+__real_malloc -> malloc
+
+-Wl flag passes argument to linker
+"--wrap,malloc" tells linker to resolve references in a special way:
+- refs to malloc should be resolved as __wrap_malloc
+- refs to __real_malloc should be resolved as malloc
