@@ -1,5 +1,8 @@
-// Below is the declaration of "Listnode" structure; suppose both "data" and "Listnode" were allocated from heap, please write a program to destroy the entire link list.
-   typedef struct Listnode {
+/* Below is the declaration of "Listnode" structure; 
+ * suppose both "data" and "Listnode" were allocated from heap, 
+ * please write a program to destroy the entire link list.
+ */
+typedef struct Listnode {
       struct Listnode *next;
       char *data;
    } Listnode;
