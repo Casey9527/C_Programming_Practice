@@ -1,4 +1,7 @@
-
+/*
+ * find the least common ancestor of two nodes. 
+ * assume the two nodes are in the tree.
+ */
 
 tree_node * lca(tree_node *root, tree_node *n1, tree_node *n2)
 {
