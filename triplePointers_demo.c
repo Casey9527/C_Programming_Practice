@@ -1,3 +1,6 @@
+/*
+ * This program demos how to define and dereference triple pointers
+ */
 #include <stdio.h>
 
 int main() {
