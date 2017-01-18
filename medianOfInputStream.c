@@ -1,4 +1,8 @@
-
+/*
+ *
+ * get the median of an input integer stream
+ * max_heap and min_heap are used
+ */
 #include <stdio.h>
 #define MAX_SIZE (100)
 
