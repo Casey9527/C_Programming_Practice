@@ -7,7 +7,7 @@
  *  nil <--               <--          <--
  *          |                              |
  *          |                              |
- *		    most-recently-used page        least-recently-used page
+ *  most-recently-used page        least-recently-used page
  *
  */
 typedef struct page {
