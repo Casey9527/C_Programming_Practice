@@ -1,7 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// A double linked-list 
+/** A double linked-list to record pages cached 
+ *  
+ *         pageN-1--> ...    page1-->     page0--> nil
+ *  nil <--               <--          <--
+ *          |                              |
+ *          |                              |
+ *		    most-recently-used page        least-recently-used page
+ *
+ */
 typedef struct page {
     int num;
     struct page *prev, *next;
@@ -16,10 +24,10 @@ page* create_page(int num)
 }
 
 typedef struct page_list {
-    page *oldest;   // front
-    page *newest;   // tail
-    int len;
-    int size;
+    page *oldest;   // address of least-recently-used page
+    page *newest;   // address of  most-recently-used page
+    int len;		// actually cache size
+    int size;		// cache capacity
 } page_list;
 
 page_list* create_page_list(int size)
@@ -48,9 +56,12 @@ void print_page_list(page_list *plist)
         printf("%d\n", p->num);
 }
 
-// A hash table from page number to cache line address 
+/**
+ * Mappings: page number --> its cache line address (page address)
+ *
+ */
 typedef struct hash {
-    page* *pages;
+    page* *pages;		// pointer array storing page addresses
     int cache_size;     // in pages
 } hash;
 
@@ -66,29 +77,35 @@ hash* create_hash(int cache_size)
     return h;
 }
 
+/**
+ * page_access:	access a page
+ * 
+ * @plist: 				page list recording the pages cached
+ * @h:					page address lookup
+ * @access_page_num:	page number
+ * 
+ * return the address of page requested
+ */
 void
 page_access(page_list *plist, hash *h, int access_page_num)
 {
-    printf("*******************************\n");
-    if (h->pages[access_page_num] != NULL) {
+    printf("/*\n");
+    if (h->pages[access_page_num] != NULL) {	/* cache hit */
         printf("page <%d> cached before.\n", access_page_num);
         page* p = h->pages[access_page_num];
         
-        if (p == plist->oldest) {
+        if (p == plist->oldest) {					/* if access the oldest one */
             printf("this page is the oldest\n");
-            page* orig_oldest = plist->oldest;
-            page* orig_newest = plist->newest;
+            plist->newest->prev = plist->oldest;
+            plist->oldest->next = plist->newest;
             
-            orig_newest->prev = orig_oldest;
-            orig_oldest->next = orig_newest;
-            
-            plist->newest = orig_oldest;
-            plist->oldest = orig_oldest->prev;
+            plist->newest = plist->oldest;
+            plist->oldest = plist->oldest->prev;
             
             plist->newest->prev = NULL;
             plist->oldest->next = NULL;
         }
-        else if (p != plist->newest) {
+        else if (p != plist->newest) {				/* if not the oldest one */
             printf("this page is not the newest\n");
             p->prev->next = p->next;
             p->next->prev = p->prev;
@@ -100,12 +117,12 @@ page_access(page_list *plist, hash *h, int access_page_num)
         
         goto ret;
     }
-    else {
+    else {										/* cache miss */
         printf("page <%d> is not cached.\n", access_page_num);
         
         page *p = create_page(access_page_num);
         
-        if (plist->len < plist->size) {
+        if (plist->len < plist->size) {				/* cache is not full: insert it as the newest */
             printf("cache is not full\n");
             if (plist->len == 0) {
                 printf("this is the first page cached\n");
@@ -118,7 +135,7 @@ page_access(page_list *plist, hash *h, int access_page_num)
             }
             plist->len ++;
         }
-        else {
+        else {										/* cache is full: evict the oldest */
             printf("cache is full\n");
             page *orig_oldest = plist->oldest;
             plist->oldest = orig_oldest->prev;
@@ -136,11 +153,24 @@ page_access(page_list *plist, hash *h, int access_page_num)
     }
 
   ret:
-      printf("*******************************\n\n");
+      printf("*/\n\n");
       return;
 
 }
 
+/**
+ * testcases design:
+ * 
+ * cache is full: 0 1 2 3 4
+ *  - access the page already cached: 4/3/2/1/0
+ *  - access new page: 5, 6, 7, 8, 9
+ * 
+ * 
+ * cache is not full: 0 1 2 3
+ *  - access a new page: 4
+ *  - access pages already cached: 3/2/1/0
+ * 
+ * */
 int
 main()
 {
@@ -151,15 +181,14 @@ main()
     page_list *plist = create_page_list(5);
     
     page_access(plist, h, 0);
-    
     page_access(plist, h, 1);
-    
     page_access(plist, h, 2);
-    
     page_access(plist, h, 3);
-    
     page_access(plist, h, 4);
-    
+
+    page_access(plist, h, 0);
+    print_page_list(plist);
+
     page_access(plist, h, 5);
     print_page_list(plist);
 
@@ -178,21 +207,3 @@ main()
     
     return 0;
 }
-
-
-/**
- * testcases design:
- * 
- * full: 0 1 2 3 4
- *    - 4/3/2/1/0
- *    - 5, 6, 7, 8, 9
- * 
- * 
- * not full: 
- *    - 0 1 2 3 4
- *    - 0 1 2 3 3/0/1
- * 
- * 
- * 
- * 
- * */
