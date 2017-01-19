@@ -26,27 +26,27 @@ Node* createNode(int data)
 /* stack implemented by linked list */
 typedef struct Stack {
     Node *top;
-    int count;
-    int capacity;
+    int len;
+    int size;
 } Stack;
 
 /* create stack dynamically */
 Stack *createStack(int cap) {
     Stack *s = (Stack *) malloc(sizeof(Stack));
     s->top = NULL;
-    s->count = 0;
-    s->capacity = cap;
+    s->len = 0;
+    s->size = cap;
     return (s);
 }
 
 int isEmpty(Stack *s)
 {
-    return s->count == 0;
+    return s->len == 0;
 }
 
 int isFull(Stack *s)
 {
-    return s->count == s->capacity;
+    return s->len == s->size;
 }
 
 void push(Stack *s, int val)
@@ -68,7 +68,7 @@ void push(Stack *s, int val)
     }
     // update
     s->top = node;
-    s->count++;
+    s->len++;
 }
 
 /* pop the top (free it and return its key value) */
@@ -81,7 +81,7 @@ int pop(Stack *s)
     Node *old_top = s->top;
     int result = old_top->key;
     s->top = s->top->next;
-    s->count--;
+    s->len--;
     free(old_top);
     return result;
 }
