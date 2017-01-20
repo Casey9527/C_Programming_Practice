@@ -25,11 +25,28 @@ void decode_print(uint8_t* data, int data_len)
 */
 
 #include <stdio.h>
-
+#include <stdlib.h>
 typedef char uint8_t;
 
+/* get lower n bits */
 #define LSB(k, n) ((k) & ((1 << (n)) - 1))
+/* get higher n bits */
 #define MSB(k, n) LSB((k) >> (8 - (n)), n)
+
+
+    /*
+    
+    input[0] = 0x34 =>   0   0110100 nil ----------->
+    input[1] = 0x55 =>   0    101010 1   -----------> output[0] =        1 0110100   =>   0xb4 
+    input[2] = 0x7d =>   0     11111 01  -----------> output[1] =       01 101010    =>   0x6a
+    input[3] = 0x42 =>   0      1000 010 -----------> output[2] =      010 11111     =>   0x5f
+    input[4] = 0x54 =>   0       101 0100 ----------> output[3] =     0100 1000      =>   0x48
+    input[5] = 0x48 =>   0        10 01000 ---------> output[4] =    01000 101       =>   0x45
+    input[6] = 0x50 =>   0         1 010000 --------> output[5] =   010000 10        =>   0x42
+    input[7] = 0x20 =>   0       nil 0100000 -------> output[6] =  0100000 1         =>   0x41
+    input[8] = 0x44      0   1000100 nil -----------> output[7] = nil      nil       =>   0x0
+    
+    */
 
 void decode_print(uint8_t* data, int data_len)
 {
@@ -39,39 +56,29 @@ void decode_print(uint8_t* data, int data_len)
         h = i % 8;    // get higher h bits of data[i-1]
         l = 7 - h;    // get lower  l bits of data[i]
         
-        if (h == 0)         // i equals 0
-            temp = LSB(data[i], l) << h;
-        else if (l == 0)    // i equals 7
-            temp = data[i];
-        else
-            temp = ( LSB(data[i], l) << h ) | MSB(data[i - 1], h);
 
-        printf("%x\n", temp);
+        if (i == 0) {
+            temp = LSB(data[i], l);
+        } else {
+            /* the every 8th output should be zero */
+            if (h == 7 && data[i] != 0) {
+                printf("output[%d] = %x, is a wrong input.\n", i, data[i]);
+                exit(-1);
+            }
+            temp = (LSB(data[i], l) << h) | (MSB(data[i - 1], h)); 
+        }
+
+        printf("input[%d] = 0x%x\n", i, temp);
     }
 }
-
-
 
 int main()
 {
     uint8_t decoded[8] = {
      0xb4, 0x6a, 0x5f, 0x48, 
-     0x45, 0x42, 0x41, 0x55
+     0x45, 0x42, 0x41, 0x0
     };
     
     decode_print(decoded, 8);
     return 0;
 }
-
-    /*
-    
-    input[0] = 0x34 =>   0 0110100
-    input[1] = 0x55 =>   0  101010 1
-    input[2] = 0x7C =>   0   11111 01
-    input[3] = 0x42 =>   0    1000 010
-    input[4] = 0x54 =>   0     101 0100
-    input[5]             0      10 01000
-    input[6]             0       1 010000
-    input[7]             0         0100000
-        
-    */
