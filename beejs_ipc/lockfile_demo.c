@@ -1,6 +1,7 @@
-/*
-**	lockdemo.c -- show off your system's file locking.
-*/
+/**
+ *	lockfile_demo.c -- show off your system's file locking.
+ *
+ **/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,8 +10,8 @@
 #include <unistd.h>
 
 int main(int argc, char *argv[]) {
-					/* l_type   l_whence  l_start l_len l_pid */
-	struct flock fl = {F_WRLCK, SEEK_SET, 0,      0,    0};
+			  /* l_type  l_whence   l_start l_len l_pid */
+	struct flock fl = {F_WRLCK,  SEEK_SET,  0,      0,    0};
 	int fd;
 	fl.l_pid = getpid();
 
