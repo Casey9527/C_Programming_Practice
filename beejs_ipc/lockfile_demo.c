@@ -1,7 +1,10 @@
-/**
- *	lockfile_demo.c -- show off your system's file locking.
- *
- **/
+/*
+ lockfile_demo.c -- show off your system's file locking.
+
+ run ./a.out in multiple windows:
+ - write lock cannot proceed to acquire the lock if there is a read/write lock already
+ - read locks don't bother each other
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
