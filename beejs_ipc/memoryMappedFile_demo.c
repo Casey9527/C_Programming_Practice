@@ -77,6 +77,7 @@ int main(int ac, char *av[])
 
 	/* munmap */
 	munmap(data, 4096);
-	close(file);
+	fclose(file);
+	close(fd);
 	return 0;
 }
