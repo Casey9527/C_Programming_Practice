@@ -4,6 +4,9 @@
  run ./a.out in multiple windows:
  - write lock cannot proceed to acquire the lock if there is a read/write lock already
  - read locks don't bother each other
+ 
+ The most use for write lock is to guarantee exclusive access 
+ to a file for a short amount of time while it's being updated.
 */
 
 #include <stdio.h>
