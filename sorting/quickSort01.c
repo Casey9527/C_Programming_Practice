@@ -15,7 +15,6 @@ void quicksort(int *A, int len)
 	}
 
 	int pivot = A[len/2];
-
 	int i, j, tmp;
 
 	for (i = 0, j = len - 1; ; i ++, j --) {
