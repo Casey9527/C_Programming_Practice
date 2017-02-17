@@ -31,7 +31,6 @@ int partition(int *A, int low, int high)
 	return i;
 }
 
-
 // quicksort(A, 0, len - 1)
 void quicksort(int *A, int low, int high)
 {
