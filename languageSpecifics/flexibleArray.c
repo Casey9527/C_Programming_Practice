@@ -1,0 +1,1 @@
+// https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html

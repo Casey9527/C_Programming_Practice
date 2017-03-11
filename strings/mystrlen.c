@@ -4,11 +4,11 @@
 
 size_t mystrlen(const char *s)
 {
-    size_t i = 0;
-    while (s[i] != '\0') {
-        i++;
+    size_t cnt = 0;
+    while ( *s ++ != '\0') {
+        cnt ++;
     }
-    return i;
+    return cnt;
 }
 
 int main()

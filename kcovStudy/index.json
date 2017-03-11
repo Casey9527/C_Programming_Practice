@@ -1,0 +1,5 @@
+var data = {files:[
+{"link":"sms.out/index.html","title":"sms.out","summary_name":"sms.out","covered_class":"linePartCov","covered":"71.4","covered_lines":"15","uncovered_lines":"6","total_lines" : "21"},
+], merged_files:[]};
+var percent_low = 25;var percent_high = 75;
+var header = { "command" : "sms.out", "date" : "2017-01-20 11:49:59", "instrumented" : 21, "covered" : 15,};

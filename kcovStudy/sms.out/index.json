@@ -1,0 +1,9 @@
+var data = {files:[
+{"link":"fcntl2.h.520eacd4.html","title":"fcntl2.h","summary_name":"/usr/include/x86_64-linux-gnu/bits/fcntl2.h","covered_class":"lineNoCov","covered":"0.0","covered_lines":"0","uncovered_lines":"1","total_lines" : "1"},
+{"link":"stdio2.h.ef72ee60.html","title":"stdio2.h","summary_name":"/usr/include/x86_64-linux-gnu/bits/stdio2.h","covered_class":"lineNoCov","covered":"0.0","covered_lines":"0","uncovered_lines":"1","total_lines" : "1"},
+{"link":"string3.h.ab56b225.html","title":"string3.h","summary_name":"/usr/include/x86_64-linux-gnu/bits/string3.h","covered_class":"lineNoCov","covered":"0.0","covered_lines":"0","uncovered_lines":"2","total_lines" : "2"},
+{"link":"smsAsciiDecoding.c.2730dc72.html","title":"smsAsciiDecoding.c","summary_name":"/home/kc/c_workspace/smsAsciiDecoding.c","covered_class":"lineCov","covered":"88.2","covered_lines":"15","uncovered_lines":"2","total_lines" : "17"},
+]};
+var percent_low = 25;var percent_high = 75;
+var header = { "command" : "sms.out", "date" : "2017-01-20 11:49:59", "instrumented" : 21, "covered" : 15,};
+var merged_data = [];

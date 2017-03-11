@@ -1,3 +1,10 @@
+/**
+ *
+ * given number @n and two index @p1, @p2.
+ * swap the bit @p1 and the bit @p2
+ *
+ **/
+
 #include <stdio.h>
 
 int swap_bits(int n, int p1, int p2)

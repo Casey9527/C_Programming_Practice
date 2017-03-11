@@ -2,17 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 char* mystrcat(char* dest, const char* src)
 {
-    if (dest == NULL)
-        return NULL;
-    
-    char *dest_end;
-    dest_end = dest + strlen(dest);
-    
-    //*dest_end = 0;
-    strcpy(dest_end, src);
+    assert(dest != NULL && src != NULL);
+    strcpy(dest + strlen(dest), sr);
     return dest;
 }
 
