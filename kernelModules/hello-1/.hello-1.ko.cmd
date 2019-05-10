@@ -1,0 +1,1 @@
+cmd_/home/kexinc/c_test/hello-1/hello-1.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/kexinc/c_test/hello-1/hello-1.ko /home/kexinc/c_test/hello-1/hello-1.o /home/kexinc/c_test/hello-1/hello-1.mod.o
